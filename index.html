@@ -19,6 +19,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Arimo&family=Atkinson+Hyperlegible&family=Cousine&family=Gelasio&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@0.25.0/dist/coloris.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@0.25.0/dist/coloris.min.js"></script>
 </head>
 
 <body>
@@ -154,14 +156,12 @@
 
         <div class="control-group">
           <div class="control-label">Or pick your own</div>
-          <div class="color-row">
-            <label class="color-field">Text
-              <input type="color" id="textColorPicker" value="#2a2a2a">
-            </label>
-            <label class="color-field">Background
-              <input type="color" id="backgroundColorPicker" value="#fbf6ec">
-            </label>
-          </div>
+          <div class="sub-label">Text color</div>
+          <input type="text" class="hex-input" id="textHexInput" readonly maxlength="7" value="#2a2a2a" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Text color hex code">
+
+          <div class="sub-label">Background color</div>
+          <input type="text" class="hex-input" id="backgroundHexInput" readonly maxlength="7" value="#fbf6ec" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="Background color hex code">
+
           <div class="contrast-note" id="contrastNote"></div>
         </div>
       </div>
@@ -232,8 +232,8 @@
     const letterSpacingValue = document.getElementById("letterSpacingValue");
     const wordSpacingValue = document.getElementById("wordSpacingValue");
     const widthValue = document.getElementById("widthValue");
-    const textColorPicker = document.getElementById("textColorPicker");
-    const backgroundColorPicker = document.getElementById("backgroundColorPicker");
+    const textHexInput = document.getElementById("textHexInput");
+    const backgroundHexInput = document.getElementById("backgroundHexInput");
     const contrastNote = document.getElementById("contrastNote");
     const setupSummary = document.getElementById("setupSummary");
     const copyButton = document.getElementById("copyButton");
@@ -335,6 +335,8 @@
       showValue(letterSpacingValue, setup.letterSpacing);
       showValue(wordSpacingValue, setup.wordSpacing);
       showValue(widthValue, setup.width);
+      showColor(textHexInput, setup.textColor);
+      showColor(backgroundHexInput, setup.backgroundColor);
       setupSummary.textContent = buildSetupText();
       refreshContrastNote();
       refreshSliderPositions();
@@ -353,21 +355,50 @@
     }
 
     function chooseTheme(value) {
+      document.activeElement.blur();
       setup.theme = value;
       setup.textColor = themes[value].text;
       setup.backgroundColor = themes[value].background;
-      textColorPicker.value = setup.textColor;
-      backgroundColorPicker.value = setup.backgroundColor;
       markPressed("themeChoices", value);
       refreshSample();
     }
 
-    function chooseCustomColors() {
+    function chooseTextColor(color) {
       setup.theme = "custom";
-      setup.textColor = textColorPicker.value;
-      setup.backgroundColor = backgroundColorPicker.value;
+      setup.textColor = color;
       markPressed("themeChoices", "custom");
       refreshSample();
+    }
+
+    function chooseBackgroundColor(color) {
+      setup.theme = "custom";
+      setup.backgroundColor = color;
+      markPressed("themeChoices", "custom");
+      refreshSample();
+    }
+
+    function showColor(hexInput, color) {
+      const isBeingTyped = document.activeElement === hexInput;
+      if (isBeingTyped || hexInput.value === color) {
+        return;
+      }
+      hexInput.value = color;
+      hexInput.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+
+    function useTypedHex(hexInput, applyColor, currentColor) {
+      const typedText = hexInput.value.trim();
+      const withHash = typedText.startsWith("#") ? typedText : "#" + typedText;
+      const isValid = /^#[0-9a-fA-F]{6}$/.test(withHash);
+      hexInput.classList.toggle("invalid", !isValid);
+      if (isValid && withHash.toLowerCase() !== currentColor.toLowerCase()) {
+        applyColor(withHash.toLowerCase());
+      }
+    }
+
+    function settleTypedHex(hexInput, currentColor) {
+      hexInput.value = currentColor;
+      hexInput.classList.remove("invalid");
     }
 
     function chooseAlign(value) {
@@ -402,14 +433,13 @@
     }
 
     function resetSetup() {
+      document.activeElement.blur();
       Object.assign(setup, defaultSetup);
       sizeSlider.value = setup.size;
       spacingSlider.value = setup.spacing;
       letterSpacingSlider.value = setup.letterSpacing;
       wordSpacingSlider.value = setup.wordSpacing;
       widthSlider.value = setup.width;
-      textColorPicker.value = setup.textColor;
-      backgroundColorPicker.value = setup.backgroundColor;
       markPressed("fontChoices", setup.font);
       markPressed("themeChoices", setup.theme);
       markPressed("alignChoices", setup.align);
@@ -469,8 +499,10 @@
     letterSpacingSlider.addEventListener("input", changeLetterSpacing);
     wordSpacingSlider.addEventListener("input", changeWordSpacing);
     widthSlider.addEventListener("input", changeWidth);
-    textColorPicker.addEventListener("input", chooseCustomColors);
-    backgroundColorPicker.addEventListener("input", chooseCustomColors);
+    textHexInput.addEventListener("input", () => useTypedHex(textHexInput, chooseTextColor, setup.textColor));
+    textHexInput.addEventListener("change", () => settleTypedHex(textHexInput, setup.textColor));
+    backgroundHexInput.addEventListener("input", () => useTypedHex(backgroundHexInput, chooseBackgroundColor, setup.backgroundColor));
+    backgroundHexInput.addEventListener("change", () => settleTypedHex(backgroundHexInput, setup.backgroundColor));
     copyButton.addEventListener("click", copySetup);
     resetButton.addEventListener("click", resetSetup);
     compareTab.addEventListener("click", () => showTab("compare"));
@@ -478,6 +510,16 @@
     nextButton.addEventListener("click", () => showTab("tuner"));
 
     document.querySelectorAll('input[type="range"]').forEach(wrapSliderWithVisuals);
+    Coloris({
+      el: ".hex-input",
+      theme: "large",
+      themeMode: "light",
+      format: "hex",
+      alpha: false,
+      focusInput: false,
+      closeButton: true,
+      closeLabel: "Done"
+    });
 
     refreshSample();
   </script>
@@ -867,27 +909,45 @@
     cursor: pointer;
   }
 
-  .color-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+  .sub-label {
+    margin: 16px 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
   }
 
-  .color-field {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
+  .clr-field {
+    display: block;
+    width: 160px;
   }
 
-  .color-field input[type="color"] {
-    width: 52px;
+  .clr-field button {
+    width: 44px;
     height: 44px;
-    padding: 2px;
-    border: 2px solid var(--card-border);
-    border-radius: 8px;
+    border-radius: 0 10px 10px 0;
+  }
+
+  .hex-input {
+    display: block;
+    width: 160px;
+    height: 44px;
+    margin: 0;
+    padding: 0 56px 0 12px;
+    font-family: Cousine, "Courier New", monospace;
+    font-size: 16px;
+    color: var(--ink);
     background: #fff;
-    cursor: pointer;
+    border: 2px solid var(--card-border);
+    border-radius: 10px;
+  }
+
+  .hex-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .hex-input.invalid {
+    border-color: #b3261e;
   }
 
   .contrast-note {
