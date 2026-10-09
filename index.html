@@ -25,9 +25,8 @@
 
 <body>
   <main>
-    <div class="eyebrow">Readability Lab</div>
     <h1>Which one is easiest to read?</h1>
-    <p class="intro">Same paragraph, four looks. Read each one, then pick the one that takes the least effort.</p>
+    <p class="intro">Same paragraph, shown four ways. Which one is easiest on your eyes?</p>
 
     <div class="tab-bar" role="tablist">
       <button type="button" class="tab" id="compareTab" role="tab" aria-selected="true"
@@ -38,49 +37,47 @@
 
     <div id="comparePanel" role="tabpanel" aria-labelledby="compareTab">
       <div class="card" data-id="a">
-        <div class="card-label">OPTION A</div>
+        <div class="card-label">Option A</div>
         <div class="sample a">
-          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
-            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+          <p>Readability is how easily a person can read and understand a piece of text. It depends on the words, but also on how the text looks: the font, the size, the spacing, and the colors.</p>
         </div>
       </div>
 
       <div class="card" data-id="b">
-        <div class="card-label">OPTION B</div>
+        <div class="card-label">Option B</div>
         <div class="sample b">
-          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
-            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+          <p>Readability is how easily a person can read and understand a piece of text. It depends on the words, but also on how the text looks: the font, the size, the spacing, and the colors.</p>
         </div>
       </div>
 
       <div class="card" data-id="c">
-        <div class="card-label">OPTION C</div>
+        <div class="card-label">Option C</div>
         <div class="sample c">
-          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
-            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+          <p>Readability is how easily a person can read and understand a piece of text. It depends on the words, but also on how the text looks: the font, the size, the spacing, and the colors.</p>
         </div>
       </div>
 
       <div class="card" data-id="d">
-        <div class="card-label">OPTION D</div>
+        <div class="card-label">Option D</div>
         <div class="sample d">
-          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
-            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+          <p>Readability is how easily a person can read and understand a piece of text. It depends on the words, but also on how the text looks: the font, the size, the spacing, and the colors.</p>
         </div>
       </div>
 
-      <button type="button" class="next-button" id="nextButton">Now make your own</button>
+      <button type="button" class="next-button" id="nextButton">Try making your own</button>
     </div>
 
     <section class="tuner" id="tunerPanel" role="tabpanel" aria-labelledby="tunerTab" hidden>
-      <p class="intro">Change anything below until the paragraph feels comfortable to read.</p>
+      <p class="intro">Play with the settings until it's comfortable to read.</p>
 
-      <textarea class="tuner-sample" id="tunerSample" maxlength="600" rows="1" spellcheck="false"
-        aria-label="Sample text. Tap to edit it."></textarea>
+      <div class="sample-box" id="sampleBox">
+        <textarea class="tuner-sample" id="tunerSample" maxlength="600" rows="1" spellcheck="false"
+          aria-label="Sample text. Tap to edit it."></textarea>
+        <span class="char-count" id="charCount"></span>
+      </div>
       <div class="sample-hint">
-        <span>Tap the text above to edit it</span>
-        <span><button type="button" class="link-button" id="sampleResetButton">Use sample text</button>
-          <span id="charCount"></span></span>
+        <span>You can edit this text</span>
+        <button type="button" class="link-button" id="sampleResetButton">Reset text</button>
       </div>
 
       <div class="option-group">
@@ -173,8 +170,8 @@
         <div class="group-label">Your setup</div>
         <div class="setup-summary" id="setupSummary"></div>
         <button type="button" class="copy-button" id="copyButton">Copy my setup</button>
-        <button type="button" class="reset-button" id="resetButton">Reset to start</button>
-        <p class="copy-hint">Tap Copy, then paste it in our chat so I can see what works for you.</p>
+        <button type="button" class="reset-button" id="resetButton">Reset options</button>
+        <p class="copy-hint">Press Copy and send it to me. I'd like to see what you picked.</p>
       </div>
     </section>
 
@@ -224,10 +221,10 @@
 
     const setup = { ...defaultSetup };
 
-    const defaultSampleText = "Most of us believe we notice when we are being ignored. In reality, we often get used to it. " +
-      "A small habit, repeated daily, becomes the normal way a conversation feels, " +
-      "and nobody stops to ask what it is costing.";
+    const defaultSampleText = "Readability is how easily a person can read and understand a piece of text. " +
+      "It depends on the words, but also on how the text looks: the font, the size, the spacing, and the colors.";
 
+    const sampleBox = document.getElementById("sampleBox");
     const tunerSample = document.getElementById("tunerSample");
     const sampleResetButton = document.getElementById("sampleResetButton");
     const charCount = document.getElementById("charCount");
@@ -356,7 +353,11 @@
       tunerSample.style.lineHeight = setup.spacing;
       tunerSample.style.letterSpacing = setup.letterSpacing + "em";
       tunerSample.style.wordSpacing = setup.wordSpacing + "em";
-      tunerSample.style.maxWidth = setup.width + "ch";
+      sampleBox.style.fontFamily = fontFamilies[setup.font];
+      sampleBox.style.fontSize = setup.size + "px";
+      sampleBox.style.maxWidth = setup.width + "ch";
+      charCount.style.color = setup.textColor;
+      charCount.style.background = setup.backgroundColor;
       tunerSample.style.textAlign = setup.align;
       tunerSample.style.background = setup.backgroundColor;
       tunerSample.style.color = setup.textColor;
@@ -595,14 +596,6 @@
     padding: 40px 16px 80px;
   }
 
-  .eyebrow {
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-  }
-
   h1 {
     font-size: 34px;
     margin: 6px 0 12px;
@@ -631,9 +624,8 @@
   }
 
   .card-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 15px;
+    font-weight: 600;
     color: var(--muted);
     margin-bottom: 10px;
   }
@@ -734,18 +726,35 @@
     line-height: 1.2;
   }
 
-  .tuner-sample {
-    display: block;
+  .sample-box {
     position: sticky;
     top: 8px;
     z-index: 10;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .char-count {
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .tuner-sample {
+    display: block;
     width: 100%;
     max-height: 40vh;
     overflow-y: auto;
     resize: none;
     border-radius: 10px;
-    padding: 18px;
-    margin: 0 auto;
+    padding: 18px 18px 34px;
+    margin: 0;
     border: 2px solid var(--card-border);
     box-shadow: 0 4px 14px rgba(31, 41, 51, 0.12);
     transition: background-color 0.25s ease, color 0.25s ease;
@@ -761,21 +770,25 @@
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    margin: 10px 0 24px;
+    margin: 6px 0 20px;
     font-size: 13px;
     color: var(--muted);
   }
 
   .link-button {
-    padding: 8px 0;
+    flex-shrink: 0;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--accent);
     background: none;
     border: none;
     cursor: pointer;
   }
+
 
   @media (prefers-reduced-motion: reduce) {
 
@@ -957,10 +970,8 @@
   }
 
   .group-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
     color: var(--muted);
     margin-bottom: 16px;
   }
