@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Readability Lab</title>
+  <meta name="description" content="Same paragraph, four looks. Which one is easiest to read?">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Readability Lab">
+  <meta property="og:description" content="Same paragraph, four looks. Which one is easiest to read?">
+  <meta property="og:url" content="https://izlaw.github.io/ReadabilityLab/">
+  <meta property="og:image" content="https://izlaw.github.io/ReadabilityLab/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Arimo&family=Atkinson+Hyperlegible&family=Cousine&family=Gelasio&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <main>
+    <div class="eyebrow">Readability Lab</div>
+    <h1>Which one is easiest to read?</h1>
+    <p class="intro">Same paragraph, four looks. Read each one, then pick the one that takes the least effort.</p>
+
+    <div class="tab-bar" role="tablist">
+      <button type="button" class="tab" id="compareTab" role="tab" aria-selected="true"
+        aria-controls="comparePanel">Compare</button>
+      <button type="button" class="tab" id="tunerTab" role="tab" aria-selected="false" aria-controls="tunerPanel">Make
+        your own</button>
+    </div>
+
+    <div id="comparePanel" role="tabpanel" aria-labelledby="compareTab">
+      <div class="card" data-id="a">
+        <div class="card-label">OPTION A</div>
+        <div class="sample a">
+          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
+            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="b">
+        <div class="card-label">OPTION B</div>
+        <div class="sample b">
+          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
+            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="c">
+        <div class="card-label">OPTION C</div>
+        <div class="sample c">
+          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
+            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+        </div>
+      </div>
+
+      <div class="card" data-id="d">
+        <div class="card-label">OPTION D</div>
+        <div class="sample d">
+          <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
+            repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+        </div>
+      </div>
+
+      <button type="button" class="next-button" id="nextButton">Now make your own</button>
+    </div>
+
+    <section class="tuner" id="tunerPanel" role="tabpanel" aria-labelledby="tunerTab" hidden>
+      <p class="intro">Change anything below until the paragraph feels comfortable to read.</p>
+
+      <div class="tuner-sample" id="tunerSample">
+        <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
+          repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+      </div>
+
+      <div class="option-group">
+        <div class="group-label">Text</div>
+
+        <div class="control-group">
+          <div class="control-label">Font</div>
+          <div class="choice-row" id="fontChoices">
+            <button type="button" class="choice" data-value="serif" aria-pressed="true">Serif</button>
+            <button type="button" class="choice" data-value="sans" aria-pressed="false">Sans</button>
+            <button type="button" class="choice" data-value="hyperlegible" aria-pressed="false">Hyperlegible</button>
+            <button type="button" class="choice" data-value="mono" aria-pressed="false">Mono</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Text size: <input type="number" class="value-input" id="sizeValue" min="14"
+              max="26" step="any" value="18" inputmode="decimal" aria-label="Text size in pixels">px</div>
+          <input type="range" id="sizeSlider" min="14" max="26" step="0.5" value="18">
+        </div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-label">Spacing</div>
+
+        <div class="control-group">
+          <div class="control-label">Line spacing: <input type="number" class="value-input" id="spacingValue" min="1.2"
+              max="2.2" step="any" value="1.7" inputmode="decimal" aria-label="Line spacing"></div>
+          <input type="range" id="spacingSlider" min="1.2" max="2.2" step="0.05" value="1.7">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Letter spacing: <input type="number" class="value-input" id="letterSpacingValue"
+              min="0" max="0.2" step="any" value="0" inputmode="decimal" aria-label="Letter spacing in em">em</div>
+          <input type="range" id="letterSpacingSlider" min="0" max="0.2" step="0.005" value="0">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Word spacing: <input type="number" class="value-input" id="wordSpacingValue"
+              min="0" max="0.6" step="any" value="0" inputmode="decimal" aria-label="Word spacing in em">em</div>
+          <input type="range" id="wordSpacingSlider" min="0" max="0.6" step="0.01" value="0">
+        </div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-label">Layout</div>
+
+        <div class="control-group">
+          <div class="control-label">Line width: <input type="number" class="value-input" id="widthValue" min="30"
+              max="90" step="any" value="90" inputmode="numeric" aria-label="Line width in characters"> characters</div>
+          <input type="range" id="widthSlider" min="30" max="90" step="1" value="90">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Text alignment</div>
+          <div class="choice-row" id="alignChoices">
+            <button type="button" class="choice" data-value="left" aria-pressed="true">Left</button>
+            <button type="button" class="choice" data-value="center" aria-pressed="false">Center</button>
+            <button type="button" class="choice" data-value="justify" aria-pressed="false">Justified</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-label">Colors</div>
+
+        <div class="control-group">
+          <div class="control-label">Ready-made</div>
+          <div class="choice-row" id="themeChoices">
+            <button type="button" class="choice" data-value="cream" aria-pressed="true">Cream</button>
+            <button type="button" class="choice" data-value="white" aria-pressed="false">White</button>
+            <button type="button" class="choice" data-value="yellow" aria-pressed="false">Yellow</button>
+            <button type="button" class="choice" data-value="dark" aria-pressed="false">Dark</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">Or pick your own</div>
+          <div class="color-row">
+            <label class="color-field">Text
+              <input type="color" id="textColorPicker" value="#2a2a2a">
+            </label>
+            <label class="color-field">Background
+              <input type="color" id="backgroundColorPicker" value="#fbf6ec">
+            </label>
+          </div>
+          <div class="contrast-note" id="contrastNote"></div>
+        </div>
+      </div>
+
+      <div class="option-group">
+        <div class="group-label">Your setup</div>
+        <div class="setup-summary" id="setupSummary"></div>
+        <button type="button" class="copy-button" id="copyButton">Copy my setup</button>
+        <button type="button" class="reset-button" id="resetButton">Reset to start</button>
+        <p class="copy-hint">Tap Copy, then paste it in our chat so I can see what works for you.</p>
+      </div>
+    </section>
+
+    <footer>A small experiment by Estanislao Delariarte III.</footer>
+  </main>
+
+  <script>
+    const fontFamilies = {
+      serif: "Gelasio, Georgia, 'Times New Roman', serif",
+      sans: "Arimo, Arial, Helvetica, sans-serif",
+      hyperlegible: "'Atkinson Hyperlegible', Verdana, Geneva, sans-serif",
+      mono: "Cousine, 'Courier New', monospace"
+    };
+
+    const fontNames = {
+      serif: "Serif",
+      sans: "Sans",
+      hyperlegible: "Hyperlegible",
+      mono: "Mono"
+    };
+
+    const themes = {
+      cream: { background: "#fbf6ec", text: "#2a2a2a", name: "Cream" },
+      white: { background: "#ffffff", text: "#2a2a2a", name: "White" },
+      yellow: { background: "#fff7c9", text: "#1d1d1d", name: "Yellow" },
+      dark: { background: "#14151a", text: "#e6e6e6", name: "Dark" }
+    };
+
+    const alignNames = {
+      left: "left aligned",
+      center: "centered",
+      justify: "justified"
+    };
+
+    const defaultSetup = {
+      font: "serif",
+      size: 18,
+      spacing: 1.7,
+      theme: "cream",
+      letterSpacing: 0,
+      wordSpacing: 0,
+      width: 90,
+      align: "left",
+      textColor: "#2a2a2a",
+      backgroundColor: "#fbf6ec"
+    };
+
+    const setup = { ...defaultSetup };
+
+    const tunerSample = document.getElementById("tunerSample");
+    const sizeSlider = document.getElementById("sizeSlider");
+    const spacingSlider = document.getElementById("spacingSlider");
+    const letterSpacingSlider = document.getElementById("letterSpacingSlider");
+    const wordSpacingSlider = document.getElementById("wordSpacingSlider");
+    const widthSlider = document.getElementById("widthSlider");
+    const sizeValue = document.getElementById("sizeValue");
+    const spacingValue = document.getElementById("spacingValue");
+    const letterSpacingValue = document.getElementById("letterSpacingValue");
+    const wordSpacingValue = document.getElementById("wordSpacingValue");
+    const widthValue = document.getElementById("widthValue");
+    const textColorPicker = document.getElementById("textColorPicker");
+    const backgroundColorPicker = document.getElementById("backgroundColorPicker");
+    const contrastNote = document.getElementById("contrastNote");
+    const setupSummary = document.getElementById("setupSummary");
+    const copyButton = document.getElementById("copyButton");
+    const resetButton = document.getElementById("resetButton");
+    const comparePanel = document.getElementById("comparePanel");
+    const tunerPanel = document.getElementById("tunerPanel");
+    const compareTab = document.getElementById("compareTab");
+    const tunerTab = document.getElementById("tunerTab");
+    const nextButton = document.getElementById("nextButton");
+
+    function getColorName() {
+      if (setup.theme === "custom") {
+        return "custom colors (text " + setup.textColor + " on " + setup.backgroundColor + ")";
+      }
+      return themes[setup.theme].name + " colors";
+    }
+
+    function buildSetupText() {
+      return "My Readability Lab setup: " + fontNames[setup.font] + " font, " + setup.size + "px, line spacing " + setup.spacing +
+        ", letter spacing " + setup.letterSpacing + "em, word spacing " + setup.wordSpacing + "em, " +
+        setup.width + " characters wide, " + alignNames[setup.align] + ", " + getColorName();
+    }
+
+    function getBrightness(hexColor) {
+      const channels = [1, 3, 5].map(start => parseInt(hexColor.slice(start, start + 2), 16) / 255);
+      const adjusted = channels.map(value => value <= 0.03928 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
+      return 0.2126 * adjusted[0] + 0.7152 * adjusted[1] + 0.0722 * adjusted[2];
+    }
+
+    function getContrastRatio(colorA, colorB) {
+      const brighter = Math.max(getBrightness(colorA), getBrightness(colorB));
+      const darker = Math.min(getBrightness(colorA), getBrightness(colorB));
+      return (brighter + 0.05) / (darker + 0.05);
+    }
+
+    function refreshContrastNote() {
+      const ratio = getContrastRatio(setup.textColor, setup.backgroundColor);
+      const isEasyToRead = ratio >= 4.5;
+      contrastNote.textContent = "Contrast " + ratio.toFixed(1) + " to 1: " + (isEasyToRead ? "easy to read" : "hard to read");
+      contrastNote.classList.toggle("contrast-warning", !isEasyToRead);
+    }
+
+    function wrapSliderWithVisuals(slider) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "slider";
+      slider.parentNode.insertBefore(wrapper, slider);
+      wrapper.appendChild(slider);
+      wrapper.insertAdjacentHTML("beforeend",
+        '<div class="slider-track"></div><div class="slider-fill"></div><div class="slider-thumb"></div>');
+    }
+
+    function refreshSliderPositions() {
+      document.querySelectorAll('.slider input[type="range"]').forEach(slider => {
+        const range = slider.max - slider.min;
+        const position = (slider.value - slider.min) / range;
+        slider.parentElement.style.setProperty("--position", position);
+      });
+    }
+
+    function showValue(valueInput, value) {
+      if (document.activeElement !== valueInput) {
+        valueInput.value = value;
+      }
+    }
+
+    function useTypedValue(valueInput, slider) {
+      const typedNumber = Number(valueInput.value);
+      const isEmpty = valueInput.value === "";
+      const isOutOfRange = typedNumber < Number(slider.min) || typedNumber > Number(slider.max);
+      if (isEmpty || isOutOfRange) {
+        return;
+      }
+      slider.value = typedNumber;
+      slider.dispatchEvent(new Event("input"));
+    }
+
+    function settleTypedValue(valueInput, slider) {
+      if (valueInput.value !== "") {
+        const lowest = Number(slider.min);
+        const highest = Number(slider.max);
+        slider.value = Math.min(Math.max(Number(valueInput.value), lowest), highest);
+        slider.dispatchEvent(new Event("input"));
+      }
+      valueInput.value = slider.value;
+    }
+
+    function refreshSample() {
+      tunerSample.style.fontFamily = fontFamilies[setup.font];
+      tunerSample.style.fontSize = setup.size + "px";
+      tunerSample.style.lineHeight = setup.spacing;
+      tunerSample.style.letterSpacing = setup.letterSpacing + "em";
+      tunerSample.style.wordSpacing = setup.wordSpacing + "em";
+      tunerSample.style.maxWidth = setup.width + "ch";
+      tunerSample.style.textAlign = setup.align;
+      tunerSample.style.background = setup.backgroundColor;
+      tunerSample.style.color = setup.textColor;
+      showValue(sizeValue, setup.size);
+      showValue(spacingValue, setup.spacing);
+      showValue(letterSpacingValue, setup.letterSpacing);
+      showValue(wordSpacingValue, setup.wordSpacing);
+      showValue(widthValue, setup.width);
+      setupSummary.textContent = buildSetupText();
+      refreshContrastNote();
+      refreshSliderPositions();
+    }
+
+    function markPressed(groupId, value) {
+      document.querySelectorAll("#" + groupId + " .choice").forEach(button => {
+        button.setAttribute("aria-pressed", button.dataset.value === value ? "true" : "false");
+      });
+    }
+
+    function chooseFont(value) {
+      setup.font = value;
+      markPressed("fontChoices", value);
+      refreshSample();
+    }
+
+    function chooseTheme(value) {
+      setup.theme = value;
+      setup.textColor = themes[value].text;
+      setup.backgroundColor = themes[value].background;
+      textColorPicker.value = setup.textColor;
+      backgroundColorPicker.value = setup.backgroundColor;
+      markPressed("themeChoices", value);
+      refreshSample();
+    }
+
+    function chooseCustomColors() {
+      setup.theme = "custom";
+      setup.textColor = textColorPicker.value;
+      setup.backgroundColor = backgroundColorPicker.value;
+      markPressed("themeChoices", "custom");
+      refreshSample();
+    }
+
+    function chooseAlign(value) {
+      setup.align = value;
+      markPressed("alignChoices", value);
+      refreshSample();
+    }
+
+    function changeLetterSpacing() {
+      setup.letterSpacing = Number(letterSpacingSlider.value);
+      refreshSample();
+    }
+
+    function changeWordSpacing() {
+      setup.wordSpacing = Number(wordSpacingSlider.value);
+      refreshSample();
+    }
+
+    function changeWidth() {
+      setup.width = Number(widthSlider.value);
+      refreshSample();
+    }
+
+    function changeSize() {
+      setup.size = Number(sizeSlider.value);
+      refreshSample();
+    }
+
+    function changeSpacing() {
+      setup.spacing = Number(spacingSlider.value);
+      refreshSample();
+    }
+
+    function resetSetup() {
+      Object.assign(setup, defaultSetup);
+      sizeSlider.value = setup.size;
+      spacingSlider.value = setup.spacing;
+      letterSpacingSlider.value = setup.letterSpacing;
+      wordSpacingSlider.value = setup.wordSpacing;
+      widthSlider.value = setup.width;
+      textColorPicker.value = setup.textColor;
+      backgroundColorPicker.value = setup.backgroundColor;
+      markPressed("fontChoices", setup.font);
+      markPressed("themeChoices", setup.theme);
+      markPressed("alignChoices", setup.align);
+      refreshSample();
+    }
+
+    function showTab(tabName) {
+      const showingTuner = tabName === "tuner";
+      comparePanel.hidden = showingTuner;
+      tunerPanel.hidden = !showingTuner;
+      compareTab.setAttribute("aria-selected", showingTuner ? "false" : "true");
+      tunerTab.setAttribute("aria-selected", showingTuner ? "true" : "false");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showCopyResult(message) {
+      copyButton.textContent = message;
+      setTimeout(() => { copyButton.textContent = "Copy my setup"; }, 2000);
+    }
+
+    async function copySetup() {
+      try {
+        await navigator.clipboard.writeText(buildSetupText());
+        showCopyResult("Copied!");
+      } catch (error) {
+        showCopyResult("Could not copy. Press and hold the text above to copy it.");
+      }
+    }
+
+    document.querySelectorAll("#fontChoices .choice").forEach(button => {
+      button.addEventListener("click", () => chooseFont(button.dataset.value));
+    });
+
+    document.querySelectorAll("#themeChoices .choice").forEach(button => {
+      button.addEventListener("click", () => chooseTheme(button.dataset.value));
+    });
+
+    document.querySelectorAll("#alignChoices .choice").forEach(button => {
+      button.addEventListener("click", () => chooseAlign(button.dataset.value));
+    });
+
+    const valueFields = [
+      { valueInput: sizeValue, slider: sizeSlider },
+      { valueInput: spacingValue, slider: spacingSlider },
+      { valueInput: letterSpacingValue, slider: letterSpacingSlider },
+      { valueInput: wordSpacingValue, slider: wordSpacingSlider },
+      { valueInput: widthValue, slider: widthSlider }
+    ];
+
+    valueFields.forEach(field => {
+      field.valueInput.addEventListener("input", () => useTypedValue(field.valueInput, field.slider));
+      field.valueInput.addEventListener("change", () => settleTypedValue(field.valueInput, field.slider));
+    });
+
+    sizeSlider.addEventListener("input", changeSize);
+    spacingSlider.addEventListener("input", changeSpacing);
+    letterSpacingSlider.addEventListener("input", changeLetterSpacing);
+    wordSpacingSlider.addEventListener("input", changeWordSpacing);
+    widthSlider.addEventListener("input", changeWidth);
+    textColorPicker.addEventListener("input", chooseCustomColors);
+    backgroundColorPicker.addEventListener("input", chooseCustomColors);
+    copyButton.addEventListener("click", copySetup);
+    resetButton.addEventListener("click", resetSetup);
+    compareTab.addEventListener("click", () => showTab("compare"));
+    tunerTab.addEventListener("click", () => showTab("tuner"));
+    nextButton.addEventListener("click", () => showTab("tuner"));
+
+    document.querySelectorAll('input[type="range"]').forEach(wrapSliderWithVisuals);
+
+    refreshSample();
+  </script>
+</body>
+
+<style>
+  :root {
+    --page-bg: #eef1f5;
+    --ink: #1f2933;
+    --muted: #66727f;
+    --accent: #3b6ea8;
+    --card-border: #d6dde6;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--ink);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 16px 80px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 34px;
+    margin: 6px 0 12px;
+    line-height: 1.15;
+  }
+
+  .intro {
+    color: var(--muted);
+    margin: 0 0 32px;
+    font-size: 17px;
+  }
+
+  .progress {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .card {
+    border: 2px solid var(--card-border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .card-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .sample {
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .sample p {
+    margin: 0;
+  }
+
+  .sample.a {
+    background: #fbf6ec;
+    color: #2a2a2a;
+    font-family: Gelasio, Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 1.7;
+  }
+
+  .sample.b {
+    background: #ffffff;
+    color: #a9a9a9;
+    font-family: Arimo, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+
+  .sample.c {
+    background: #fff7c9;
+    color: #1d1d1d;
+    font-family: "Atkinson Hyperlegible", Verdana, Geneva, sans-serif;
+    font-size: 17px;
+    line-height: 1.85;
+    letter-spacing: 0.03em;
+  }
+
+  .sample.d {
+    background: #14151a;
+    color: #e6e6e6;
+    font-family: Cousine, "Courier New", monospace;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 6px;
+    padding: 5px;
+    margin-bottom: 24px;
+    border-radius: 12px;
+    background: var(--card-border);
+  }
+
+  .tab {
+    flex: 1;
+    min-height: 48px;
+    padding: 10px 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .tab[aria-selected="true"] {
+    background: #fff;
+    color: var(--accent);
+    box-shadow: 0 1px 4px rgba(31, 41, 51, 0.15);
+  }
+
+  .next-button {
+    width: 100%;
+    min-height: 52px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .tuner {
+    margin-top: 0;
+  }
+
+  .tuner h2 {
+    font-size: 26px;
+    margin: 6px 0 8px;
+    line-height: 1.2;
+  }
+
+  .tuner-sample {
+    position: sticky;
+    top: 8px;
+    z-index: 10;
+    max-height: 40vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    padding: 18px;
+    margin: 0 auto 24px;
+    border: 2px solid var(--card-border);
+    box-shadow: 0 4px 14px rgba(31, 41, 51, 0.12);
+    transition: font-size 0.2s ease, line-height 0.2s ease, letter-spacing 0.2s ease,
+      word-spacing 0.2s ease, max-width 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .tuner-sample,
+    .slider-fill,
+    .slider-thumb {
+      transition: none;
+    }
+  }
+
+  .tuner-sample p {
+    margin: 0;
+  }
+
+  .control-group {
+    margin-bottom: 20px;
+  }
+
+  .control-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .choice-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .choice {
+    min-height: 44px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 2px solid var(--card-border);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .choice[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .value-input {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    width: 68px;
+    height: 34px;
+    padding: 2px 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    margin: 0 2px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--card-border);
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .value-input::-webkit-inner-spin-button,
+  .value-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .value-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 110, 168, 0.25);
+  }
+
+  .slider {
+    --position: 0.5;
+    position: relative;
+    height: 32px;
+  }
+
+  .slider input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .slider input[type="range"]::-webkit-slider-runnable-track {
+    height: 32px;
+    background: transparent;
+  }
+
+  .slider input[type="range"]::-moz-range-track {
+    height: 32px;
+    background: transparent;
+  }
+
+  .slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 28px;
+    height: 32px;
+    background: transparent;
+    border: none;
+  }
+
+  .slider input[type="range"]::-moz-range-thumb {
+    width: 28px;
+    height: 32px;
+    background: transparent;
+    border: none;
+  }
+
+  .slider input[type="range"]:focus-visible {
+    outline: none;
+  }
+
+  .slider-track,
+  .slider-fill {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 8px;
+    margin-top: -4px;
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  .slider-track {
+    right: 0;
+    background: var(--card-border);
+  }
+
+  .slider-fill {
+    width: calc(14px + (100% - 28px) * var(--position));
+    background: var(--accent);
+    transition: width 0.18s ease-out;
+  }
+
+  .slider-thumb {
+    position: absolute;
+    top: 50%;
+    left: calc((100% - 28px) * var(--position));
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid var(--accent);
+    box-shadow: 0 2px 6px rgba(31, 41, 51, 0.25);
+    pointer-events: none;
+    transition: left 0.18s ease-out, transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .slider:active .slider-thumb {
+    transform: scale(1.15);
+  }
+
+  .slider:has(input:focus-visible) .slider-thumb {
+    box-shadow: 0 0 0 4px rgba(59, 110, 168, 0.3);
+  }
+
+  .option-group {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .group-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .reset-button {
+    margin-top: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    border: 2px solid var(--card-border);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .color-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .color-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .color-field input[type="color"] {
+    width: 52px;
+    height: 44px;
+    padding: 2px;
+    border: 2px solid var(--card-border);
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .contrast-note {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .contrast-note.contrast-warning {
+    color: #b3261e;
+    font-weight: 600;
+  }
+
+  .setup-summary {
+    margin-top: 8px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 2px dashed var(--card-border);
+    font-size: 15px;
+    user-select: text;
+  }
+
+  .copy-button {
+    margin-top: 12px;
+    width: 100%;
+    min-height: 52px;
+    padding: 14px;
+    font-size: 17px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .copy-hint {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer {
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>
+
+</html>
