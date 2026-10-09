@@ -75,9 +75,12 @@
     <section class="tuner" id="tunerPanel" role="tabpanel" aria-labelledby="tunerTab" hidden>
       <p class="intro">Change anything below until the paragraph feels comfortable to read.</p>
 
-      <div class="tuner-sample" id="tunerSample">
-        <p>Most of us believe we notice when we are being ignored. In reality, we often get used to it. A small habit,
-          repeated daily, becomes the normal way a conversation feels, and nobody stops to ask what it is costing.</p>
+      <textarea class="tuner-sample" id="tunerSample" maxlength="600" rows="1" spellcheck="false"
+        aria-label="Sample text. Tap to edit it."></textarea>
+      <div class="sample-hint">
+        <span>Tap the text above to edit it</span>
+        <span><button type="button" class="link-button" id="sampleResetButton">Use sample text</button>
+          <span id="charCount"></span></span>
       </div>
 
       <div class="option-group">
@@ -221,7 +224,13 @@
 
     const setup = { ...defaultSetup };
 
+    const defaultSampleText = "Most of us believe we notice when we are being ignored. In reality, we often get used to it. " +
+      "A small habit, repeated daily, becomes the normal way a conversation feels, " +
+      "and nobody stops to ask what it is costing.";
+
     const tunerSample = document.getElementById("tunerSample");
+    const sampleResetButton = document.getElementById("sampleResetButton");
+    const charCount = document.getElementById("charCount");
     const sizeSlider = document.getElementById("sizeSlider");
     const spacingSlider = document.getElementById("spacingSlider");
     const letterSpacingSlider = document.getElementById("letterSpacingSlider");
@@ -320,6 +329,27 @@
       valueInput.value = slider.value;
     }
 
+    function resizeSample() {
+      tunerSample.style.height = "auto";
+      const borderHeight = tunerSample.offsetHeight - tunerSample.clientHeight;
+      tunerSample.style.height = (tunerSample.scrollHeight + borderHeight) + "px";
+    }
+
+    function refreshCharCount() {
+      charCount.textContent = tunerSample.value.length + " / 600";
+    }
+
+    function useSampleText() {
+      tunerSample.value = defaultSampleText;
+      refreshSample();
+    }
+
+    function fillEmptySample() {
+      if (tunerSample.value.trim() === "") {
+        useSampleText();
+      }
+    }
+
     function refreshSample() {
       tunerSample.style.fontFamily = fontFamilies[setup.font];
       tunerSample.style.fontSize = setup.size + "px";
@@ -337,6 +367,8 @@
       showValue(widthValue, setup.width);
       showColor(textHexInput, setup.textColor);
       showColor(backgroundHexInput, setup.backgroundColor);
+      resizeSample();
+      refreshCharCount();
       setupSummary.textContent = buildSetupText();
       refreshContrastNote();
       refreshSliderPositions();
@@ -435,6 +467,7 @@
     function resetSetup() {
       document.activeElement.blur();
       Object.assign(setup, defaultSetup);
+      tunerSample.value = defaultSampleText;
       sizeSlider.value = setup.size;
       spacingSlider.value = setup.spacing;
       letterSpacingSlider.value = setup.letterSpacing;
@@ -452,6 +485,7 @@
       tunerPanel.hidden = !showingTuner;
       compareTab.setAttribute("aria-selected", showingTuner ? "false" : "true");
       tunerTab.setAttribute("aria-selected", showingTuner ? "true" : "false");
+      resizeSample();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
@@ -505,11 +539,20 @@
     backgroundHexInput.addEventListener("change", () => settleTypedHex(backgroundHexInput, setup.backgroundColor));
     copyButton.addEventListener("click", copySetup);
     resetButton.addEventListener("click", resetSetup);
+    sampleResetButton.addEventListener("click", useSampleText);
+    tunerSample.addEventListener("input", () => {
+      resizeSample();
+      refreshCharCount();
+    });
+    tunerSample.addEventListener("blur", fillEmptySample);
+    window.addEventListener("resize", resizeSample);
     compareTab.addEventListener("click", () => showTab("compare"));
     tunerTab.addEventListener("click", () => showTab("tuner"));
     nextButton.addEventListener("click", () => showTab("tuner"));
 
     document.querySelectorAll('input[type="range"]').forEach(wrapSliderWithVisuals);
+    tunerSample.value = defaultSampleText;
+
     Coloris({
       el: ".hex-input",
       theme: "large",
@@ -692,18 +735,46 @@
   }
 
   .tuner-sample {
+    display: block;
     position: sticky;
     top: 8px;
     z-index: 10;
+    width: 100%;
     max-height: 40vh;
     overflow-y: auto;
+    resize: none;
     border-radius: 10px;
     padding: 18px;
-    margin: 0 auto 24px;
+    margin: 0 auto;
     border: 2px solid var(--card-border);
     box-shadow: 0 4px 14px rgba(31, 41, 51, 0.12);
-    transition: font-size 0.2s ease, line-height 0.2s ease, letter-spacing 0.2s ease,
-      word-spacing 0.2s ease, max-width 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .tuner-sample:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .sample-hint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 24px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .link-button {
+    padding: 8px 0;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   @media (prefers-reduced-motion: reduce) {
